@@ -40,6 +40,7 @@ Open the canvases beside chat in Cursor (Recent → canvas), or copy from `docs/
 - **Node.js** 20+ (18+ may work; 20+ recommended)
 - **npm** (or pnpm/yarn)
 - **[Ollama](https://ollama.com)** installed and running locally
+- **Desktop (macOS):** Rust (`rustup`), Xcode Command Line Tools
 
 ### Install Ollama and a model
 
@@ -76,6 +77,43 @@ Ensure Ollama is up (`ollama list` should show your model).
 
 ---
 
+## Desktop (macOS)
+
+Arcana can run as a native window via **Tauri**. The shell starts the existing Next.js server as a local sidecar (notes + AI stay on your machine). Ollama is still a separate install.
+
+### One-time setup
+
+```bash
+# Rust toolchain (if needed)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Xcode CLT (if needed)
+xcode-select --install
+```
+
+### Dev (Tauri window + `next dev`)
+
+```bash
+npm run desktop:dev
+```
+
+### Production `.app`
+
+```bash
+npm run desktop:build
+```
+
+The app lands under `src-tauri/target/release/bundle/macos/Arcana.app`.
+
+| | Path |
+|---|---|
+| Notes DB (desktop) | `~/Library/Application Support/com.arcana.desktop/arcana.db` |
+| Notes DB (`npm run dev`) | `data/arcana.db` in the repo |
+| Sidecar port | `127.0.0.1:47821` |
+
+Code signing / notarization is not configured yet — fine for local use; required if you distribute the `.app`.
+
+---
+
 ## Environment
 
 Copy `.env.example` → `.env`:
@@ -103,6 +141,9 @@ OLLAMA_MODEL=qwen2.5:7b
 | `npm run start` | Run production server |
 | `npm run db:push` | Push Drizzle schema to SQLite |
 | `npm run db:studio` | Open Drizzle Studio (optional) |
+| `npm run build:desktop` | Next standalone + stage Tauri resources |
+| `npm run desktop:dev` | Tauri window against `next dev` |
+| `npm run desktop:build` | Build `Arcana.app` |
 
 ---
 
@@ -113,6 +154,9 @@ arcana/
 ├── docs/                 # Architecture, roadmap, Notion study
 ├── data/                 # SQLite DB (gitignored)
 ├── drizzle/              # SQL migrations (if generated)
+├── sidecar-ui/           # Loading page while the desktop server starts
+├── src-tauri/            # Tauri shell (Rust) + staged resources
+├── scripts/              # prepare-standalone.mjs (desktop packaging)
 ├── src/
 │   ├── app/              # Routes + API
 │   ├── components/       # Sidebar, editor, AI panel
@@ -145,12 +189,14 @@ If Ollama is stopped or the model is missing, the UI shows an error with what to
 | Slow responses | Use a smaller model (`llama3.2:3b`) or close other heavy apps |
 | DB errors on first run | `npm run db:push`; ensure `data/` is writable |
 | Port 3000 in use | `npx next dev -p 3001` |
+| `desktop:dev` / Rust errors | Install Rust (`rustup`) + Xcode CLT; reopen the terminal |
+| Desktop AI / notes missing | Confirm Ollama is running; desktop DB is under Application Support, not `data/` |
 
 ---
 
 ## Tech stack (summary)
 
-Next.js · TypeScript · Tailwind · BlockNote · Drizzle · SQLite · Ollama
+Next.js · TypeScript · Tailwind · BlockNote · Drizzle · SQLite · Ollama · Tauri (macOS shell)
 
 Full rationale: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 

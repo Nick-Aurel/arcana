@@ -372,7 +372,31 @@ flowchart TB
 
 - Bind to localhost; do not expose Next.js or Ollama publicly without hardening.
 - No cloud AI keys in MVP.
-- Back up notes by copying `data/arcana.db`.
+- Back up notes by copying `data/arcana.db` (browser/dev) or `~/Library/Application Support/com.arcana.desktop/arcana.db` (desktop).
+
+---
+
+## Desktop shell (macOS)
+
+Tauri wraps the same Next.js app. Release builds embed a Node binary + `output: "standalone"` server as resources; the Rust side spawns that sidecar on `127.0.0.1:47821`, waits for the port, then navigates the webview. Dev mode uses `beforeDevCommand` → `npm run dev` and loads `http://127.0.0.1:3000` (no sidecar).
+
+```mermaid
+flowchart LR
+  subgraph app ["Arcana.app"]
+    Shell["Tauri"]
+    Node["Bundled Node + Next"]
+    WV["WebView"]
+  end
+  DB[("Application Support DB")]
+  Oll["Ollama"]
+  Shell -->|spawn| Node
+  Shell -->|navigate| WV
+  WV --> Node
+  Node --> DB
+  Node --> Oll
+```
+
+See README **Desktop (macOS)** for build commands.
 
 ---
 
@@ -388,14 +412,14 @@ timeline
     Local sync : Git / WebDAV export
     Simple databases : tables after writing loop is solid
   section Later
-    Desktop shell : Tauri or Electron Arcana.app
+    Desktop polish : signing, Windows/Linux, auto-update
 ```
 
 1. **Embeddings + RAG** — ask across the workspace  
 2. **Slash-command AI** — `/summarize` in-editor  
 3. **Sync** — Git-backed or WebDAV; still local-first  
 4. **Databases** — simple tables  
-5. **Desktop shell** — Tauri/Electron  
+5. **Desktop polish** — notarization, other OS targets (macOS shell shipped)  
 
 ---
 

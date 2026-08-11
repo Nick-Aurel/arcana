@@ -17,11 +17,26 @@ function resolveDbPath() {
   return path.join(process.cwd(), "data", base);
 }
 
+/** Create tables if missing so desktop first-launch works without drizzle-kit. */
+function ensureSchema(sqlite: Database.Database) {
+  sqlite.exec(`
+    CREATE TABLE IF NOT EXISTS pages (
+      id TEXT PRIMARY KEY NOT NULL,
+      title TEXT NOT NULL DEFAULT 'Untitled',
+      parent_id TEXT,
+      content TEXT NOT NULL DEFAULT '[]',
+      created_at INTEGER NOT NULL,
+      updated_at INTEGER NOT NULL
+    );
+  `);
+}
+
 const dbPath = resolveDbPath();
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 const sqlite = new Database(dbPath);
 sqlite.pragma("journal_mode = WAL");
 sqlite.pragma("foreign_keys = ON");
+ensureSchema(sqlite);
 
 export const db = drizzle(sqlite, { schema });

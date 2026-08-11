@@ -20,6 +20,12 @@
 # production
 /build
 
+# tauri / desktop staging
+/src-tauri/target/
+/src-tauri/resources/node
+/src-tauri/resources/arcana-server/
+/src-tauri/resources/meta.json
+
 # misc
 .DS_Store
 *.pem
