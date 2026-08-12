@@ -30,6 +30,7 @@
 | [docs/MVP_ROADMAP.md](./docs/MVP_ROADMAP.md) | Phased checklist + Gantt / progress charts |
 | [docs/notion-architecture.md](./docs/notion-architecture.md) | Notion architecture study (+ charts) |
 | [docs/canvases/](./docs/canvases/) | Interactive Cursor canvas sources (versioned) |
+| [Plan for app.md](./Plan%20for%20app.md) | Post-MVP mobile strategy (Expo, iOS first, sync + AI) |
 
 Open the canvases beside chat in Cursor (Recent → canvas), or copy from `docs/canvases/` if missing — see [docs/canvases/README.md](./docs/canvases/README.md).
 
