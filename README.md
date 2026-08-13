@@ -1,12 +1,12 @@
 # Arcana
 
-**Arcana** is a local-first, Notion-like notes app with free AI. It runs on your machine, stores notes in SQLite, and talks to [Ollama](https://ollama.com) so you get summarize / rewrite / ask / bullets / checklist **without a paid AI subscription**.
+Arcana is a local-first notes app: Notion-like pages and a block editor on your machine, SQLite for storage, and [Ollama](https://ollama.com) for free local AI (summarize, rewrite, ask, bullets, checklist). No cloud AI bill. Optional Tauri shell for a native macOS window.
 
-> Own your notes. Own your models. No cloud AI bill.
+> Own your notes. Own your models.
 
 ---
 
-## Features (MVP)
+## Features
 
 - **Pages** — create, rename, delete, nest under a parent
 - **Block editor** — headings, paragraphs, bullets, numbered lists, checklists, code (BlockNote)
@@ -20,19 +20,7 @@
 
 **Not in MVP:** databases, multiplayer, cloud sync, auth, mobile, ask-across-all-notes (RAG).
 
----
-
-## Docs
-
-| Doc | Purpose |
-|-----|---------|
-| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System map, stack, data model, APIs, AI contracts (+ charts) |
-| [docs/MVP_ROADMAP.md](./docs/MVP_ROADMAP.md) | Phased checklist + Gantt / progress charts |
-| [docs/notion-architecture.md](./docs/notion-architecture.md) | Notion architecture study (+ charts) |
-| [docs/canvases/](./docs/canvases/) | Interactive Cursor canvas sources (versioned) |
-| [Plan for app.md](./Plan%20for%20app.md) | Post-MVP mobile strategy (Expo, iOS first, sync + AI) |
-
-Open the canvases beside chat in Cursor (Recent → canvas), or copy from `docs/canvases/` if missing — see [docs/canvases/README.md](./docs/canvases/README.md).
+Deeper system map, data model, and AI contracts: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 
 ---
 
@@ -152,7 +140,7 @@ OLLAMA_MODEL=qwen2.5:7b
 
 ```
 arcana/
-├── docs/                 # Architecture, roadmap, Notion study
+├── docs/                 # Architecture
 ├── data/                 # SQLite DB (gitignored)
 ├── drizzle/              # SQL migrations (if generated)
 ├── sidecar-ui/           # Loading page while the desktop server starts
@@ -195,7 +183,7 @@ If Ollama is stopped or the model is missing, the UI shows an error with what to
 
 ---
 
-## Tech stack (summary)
+## Tech stack
 
 Next.js · TypeScript · Tailwind · BlockNote · Drizzle · SQLite · Ollama · Tauri (macOS shell)
 
