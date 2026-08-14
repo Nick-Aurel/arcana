@@ -193,4 +193,4 @@ Full rationale: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 
 ## License
 
-Personal / student project. Add a license file if you redistribute.
+Created by **Nick-Aurel Mugirashaka**. Personal / student project. Add a license file if you redistribute.
